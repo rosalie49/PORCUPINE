@@ -3,12 +3,12 @@ def load_data():
     import pandas as pd
     import pyreadr
     #Loading of the network data
-    net_file_path = "/div/pythagoras/u1/rosaliec/80_tcga_lms_net.RData"
+    net_file_path = input("Network file path => ")
     data = pyreadr.read_r(net_file_path)
     net = data['net']
 
     #Loading of the edges information
-    edges_file_path = "/div/pythagoras/u1/rosaliec/rand_genes.RData"
+    edges_file_path = input("Edges file path => ")
     data_edges = pyreadr.read_r(edges_file_path)
     edges = data_edges['edges']
 
@@ -16,7 +16,7 @@ def load_data():
 
 #This function permits to load the gmt file with pathways
 def load_gmt():
-    pathways_file_path = "/div/pythagoras/u1/rosaliec/c2.cp.reactome.v7.1.symbols.gmt" 
+    pathways_file_path = input("Pathways file path => ")
     pathways_list = []
     with open(pathways_file_path, 'r') as file:
         for line in file:
