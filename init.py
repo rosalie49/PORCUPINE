@@ -1,22 +1,25 @@
 #Function init permits to load the data
-def load_data():
+def load_data(net_file_path=None, edges_file_path=None):
     import pandas as pd
     import pyreadr
     #Loading of the network data
-    net_file_path = input("Network file path => ")
+    if net_file_path is None:
+        net_file_path = input("Network file path => ")
     data = pyreadr.read_r(net_file_path)
     net = data['net']
 
     #Loading of the edges information
-    edges_file_path = input("Edges file path => ")
+    if edges_file_path is None:
+        edges_file_path = input("Edges file path => ")
     data_edges = pyreadr.read_r(edges_file_path)
     edges = data_edges['edges']
 
     return net, edges
 
 #This function permits to load the gmt file with pathways
-def load_gmt():
-    pathways_file_path = input("Pathways file path => ")
+def load_gmt(pathways_file_path=None):
+    if pathways_file_path is None:
+        pathways_file_path = input("Pathways file path => ")
     pathways_list = []
     with open(pathways_file_path, 'r') as file:
         for line in file:
