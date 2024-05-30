@@ -14,6 +14,7 @@ def load_data(net_file_path=None, edges_file_path=None):
         - net (DataFrame): The network data
         - edges (DataFrame): The edges data
     '''
+    
     net = load_net_file(net_file_path)
 
     edges = load_edges_file(edges_file_path)
