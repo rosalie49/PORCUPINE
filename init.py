@@ -96,15 +96,21 @@ def filter_pathways(pathways_list,edges):
     Returns:
     A list of filtered pathways
     """
-
-    # Creating a dataframe from the pathways list with columns 'pathway' and 'genes'
-    pathways_filt = pd.DataFrame(pathways_list, columns=['pathway', 'genes'])
+    
     # Extracting unique genes from edge data
     unique_edges = edges['tar'].unique()
-    # Filtering pathways by keeping only those whose genes are present in the unique genes from edges
-    pathways_filt = pathways_filt[pathways_filt['genes'].apply(lambda x: any(gene in unique_edges for gene in x))]
+    pathways_filt = []
+    # Iterate over each pathway in the list
+    for pathway, genes in pathways_list:
+        filtered_genes = [gene for gene in genes if gene in unique_edges] # Filter genes to keep only those present in the unique genes from edges
+        if filtered_genes:
+            pathways_filt.append((pathway, filtered_genes)) # Append the pathway with filtered genes to the pathways_filt list if genes remain after filtering 
+
+    # Creating a dataframe from patwhways_filt with columns 'pathway' and 'genes'
+    pathways_filt = pd.DataFrame(pathways_filt, columns=['pathway', 'genes'])
 
     return pathways_filt
+
 
 
 def filter_pathways_size(pathways_filt,minSize=5,maxSize=150):
