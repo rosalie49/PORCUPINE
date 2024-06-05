@@ -132,3 +132,17 @@ def filter_pathways_size(pathways_filt,minSize=5,maxSize=150):
     ]
 
     return pathways_to_use
+
+def pathways_sorting(pathways_list):
+    '''
+    Sort a list of pathways in alphabetic order
+
+    Parameters:
+    pathways_list : list of pathways
+
+    Returns:
+    A list of pathways in alphabetic order 
+    '''
+    sorted_pathways = pathways_list.sort_values(by='pathway')
+
+    return sorted_pathways
