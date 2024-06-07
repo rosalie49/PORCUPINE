@@ -83,7 +83,6 @@ def load_gmt(pathways_file_path=None):
             pathways_list.append((pathway, genes)) # Adding pathway name and gene list to pathways_list
     return pathways_list
 
-
 def filter_pathways(pathways_list, edges):
     """
     Filter a list of pathways to include only genes present in networks
@@ -106,7 +105,6 @@ def filter_pathways(pathways_list, edges):
     pathways_filt = pathways_filt[pathways_filt['genes'].apply(lambda x: any(gene in unique_edges for gene in x))]
     
     return pathways_filt
-
 
 def filter_pathways_size(pathways_filt, minSize=5, maxSize=150):
     '''
