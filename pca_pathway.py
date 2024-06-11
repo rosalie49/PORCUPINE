@@ -47,10 +47,16 @@ def process_pathway(pathway, reg_net, edges, scale_data=True, center_data=True):
               - n_genes (int): The number of genes in the pathway.
     """    
     # Identify the indices of edges where the target genes are in the pathway's gene list
-    idx = edges[edges['tar'].isin(pathway['genes'])].index
+    all_genes = set(pathway['genes'])
+    idx = edges[edges['tar'].isin(all_genes)].index
      # Extract the subset of the regulatory network corresponding to these indices
     subnet = reg_net.loc[idx]
+    pc1 = None
+    n_edges = None
     # Perform PCA analysis on the subset
-    pca_result = run_pca(subnet, scale_data=scale_data, center_data=center_data)
-    
-    return [pathway, pca_result['pc1'].iloc[0], pca_result['n_edges'].iloc[0], len(pathway['genes'])]
+    if not subnet.empty:
+        pca_result = run_pca(subnet, scale_data=scale_data, center_data=center_data)
+        pc1 = pca_result['pc1'].iloc[0]
+        n_edges = pca_result['n_edges'].iloc[0]
+ 
+    return [pathway, pc1, n_edges, len(pathway['genes'])]

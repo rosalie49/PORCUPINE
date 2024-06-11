@@ -4,7 +4,7 @@ from pca_pathway import *
 def create_gene_set(universe, psize, n_perm=1000):
     universe_list = list(universe) 
     gene_set = pd.DataFrame({
-        'pathway': [i + 1 for i in range(n_perm)],
+        'pathway': [i for i in range(n_perm)],
         'genes': [random.sample(universe_list, psize) for _ in range(n_perm)]})
     return gene_set
 
