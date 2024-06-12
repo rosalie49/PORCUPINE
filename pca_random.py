@@ -1,30 +1,29 @@
-from random import *
+import numpy as np
 from pca_pathway import *
 
-def create_gene_set(universe, psize, n_perm=1000):
+def create_gene_set(universe, psize, n_perm=1000, seed = None, rng = None):
     """This function creates a random gene set from a universe of genes 
 
     Args:
         universe (set): A set of all possible genes
         psize (int): Number of genes in a gene set 
         n_perm (int): Number of permutations to create a random gene set. Defaults to 1000.
-
     Returns:
         pd.DataFrame : genrated pathways and theur corresponding genes.
     """    
-    # Convert the universe of genes to a list
-    universe_list = list(universe) 
+    if rng is None:
+        rng = np.random.default_rng(seed) 
 
     # Create a DataFrame with two columns: 'pathway' and 'genes'
     # 'pathway' contains pathway numbers ranging from 1 to n_perm
     # 'genes' contains lists of genes, each list being a random selection of psize genes from the universe
     gene_set = pd.DataFrame({
-        'pathway': [i for i in range(n_perm)],
-        'genes': [random.sample(universe_list, psize) for _ in range(n_perm)]})
-    return gene_set 
+        'pathway': range(1, n_perm + 1),
+        'genes': [rng.choice(list(universe), size=psize, replace=False).tolist() for _ in range(n_perm)]})
+    return gene_set
 
 
-def pca_random(reg_net, edges, res_pca_pathways, pathways_list, n_perm=1000, scale_data = True, center_data = True):
+def pca_random(reg_net, edges, res_pca_pathways, pathways_list, n_perm=1000, seed = None, rng = None, scale_data = True, center_data = True):
     """This function creates random gene sets and runs PCA analysis on them 
 
     Args:
@@ -49,7 +48,7 @@ def pca_random(reg_net, edges, res_pca_pathways, pathways_list, n_perm=1000, sca
     for psize in pathways_size:
         print("Pathways with size", psize)
         # Generate random gene sets of the current pathway size
-        random_genes = create_gene_set(universe, psize, n_perm=n_perm)
+        random_genes = create_gene_set(universe, psize, n_perm=n_perm, seed = seed, rng = rng)
         # Run PCA analysis on the generated random gene sets
         res_pca = pca_pathway(random_genes, reg_net, edges,scale_data=scale_data, center_data=center_data)
         # Append the PCA results to the list
