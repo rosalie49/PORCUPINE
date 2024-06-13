@@ -7,7 +7,7 @@ def run_pca(data, scale_data=True, center_data=True):
     """This function perform PCA analysis on the data
 
     Args:
-        data (pd.DataFrame): pathways with belonging genes
+        data (pd.DataFrame): with samples in columns, and features in rows
         scale_data (bool): whether to scale the data (TRUE) or not (FALSE). Defaults to True
         center_data (bool):  whether to center the data (TRUE) or not (FALSE). Defaults to True.
 
