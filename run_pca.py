@@ -4,6 +4,16 @@ import pandas as pd
 import numpy as np
 
 def run_pca(data, scale_data=True, center_data=True):
+    """This function perform PCA analysis on the data
+
+    Args:
+        data (pd.DataFrame): pathways with belonging genes
+        scale_data (bool): whether to scale the data (TRUE) or not (FALSE). Defaults to True
+        center_data (bool):  whether to center the data (TRUE) or not (FALSE). Defaults to True.
+
+    Returns:
+        pd.DataFrame: _description_
+    """    
     # Transpose the data matrix
     data_t = np.transpose(data)
 
@@ -20,7 +30,7 @@ def run_pca(data, scale_data=True, center_data=True):
     # Calculate the percentage of variance explained by the first principal component
     pc1 = pca.explained_variance_ratio_[0] * 100
     
-    result = pd.DataFrame({"pc1": [pc1], "n_edges": [data.shape[1]]})
+    result = pd.DataFrame({"pc1": pc1, "n_edges": data.shape[1]})
     return result
 
 
