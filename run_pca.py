@@ -30,7 +30,7 @@ def run_pca(data, scale_data=True, center_data=True):
     # Calculate the percentage of variance explained by the first principal component
     pc1 = pca.explained_variance_ratio_[0] * 100
     
-    result = pd.DataFrame({"pc1": pc1, "n_edges": data.shape[1]})
+    result = pd.DataFrame({"pc1": pc1, "n_edges": data.shape[1]}, index=[0])
     return result
 
 
