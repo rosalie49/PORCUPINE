@@ -14,7 +14,7 @@ def test_run_pca():
     result = run_pca(data_df)
     
     assert result['pc1'].iloc[0] == pytest.approx(40.076, abs=0.001) #R result 
-    assert result['n_edges'].iloc[0] == 10
+    assert result['n_edges'].iloc[0] == 10 #R result
 
 
 def test_process_pathway():
@@ -27,7 +27,7 @@ def test_process_pathway():
     
     res = process_pathway(pathway_data,net_data, edges_df)
 
-    assert res[1] == pytest.approx(56.856, abs=0.001) # 
-    assert res[2] == 5
-    assert res[3] == 5
+    assert res[1] == pytest.approx(56.856, abs=0.001) # R result 
+    assert res[2] == 5 #R result
+    assert res[3] == 5 #R result 
 
