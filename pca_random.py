@@ -51,7 +51,8 @@ def pca_random(reg_net, edges, res_pca_pathways, pathways_list, n_perm=1000, see
         random_genes = create_gene_set(universe, psize, n_perm=n_perm, seed = seed, rng = rng)
         # Run PCA analysis on the generated random gene sets
         res_pca = pca_pathway(random_genes, reg_net, edges,scale_data=scale_data, center_data=center_data)
-        # Append the PCA results to the list
+        # Append the PCA results to the list if it's not empty
+        res_pca = res_pca[res_pca['pc1'].notna()]            
         res_pca_random.append(res_pca)
 
     # Concatenate all PCA results into a single DataFrame
