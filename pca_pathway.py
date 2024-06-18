@@ -59,4 +59,4 @@ def process_pathway(pathway, reg_net, edges, scale_data=True, center_data=True):
         pc1 = pca_result['pc1'].iloc[0]
         n_edges = pca_result['n_edges'].iloc[0]
  
-    return (pathway, pc1, n_edges, len(pathway['genes']))
+    return (pathway.iloc[0], pc1, n_edges, len(pathway['genes']))
