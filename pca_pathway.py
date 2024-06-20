@@ -19,7 +19,7 @@ def pca_pathway(pathways_list, reg_net, edges, scale_data=True, center_data=True
      # Initialize an empty list to store results for each pathway
     results = []
     # Iterate over each pathway in the pathways list
-    for index, pathway in pathways_list.iterrows():
+    for _, pathway in pathways_list.iterrows():
          # Process the pathway using PCA
         result = process_pathway(pathway, reg_net, edges, scale_data=scale_data, center_data=center_data)
         # Append the result to the results list
