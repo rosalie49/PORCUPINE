@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from scipy.stats import stats
+from scipy.stats import ttest_1samp
 
 def calculate_statistics(res_pca_pathway, res_pca_rndm_set):
     """This function compares the PCA score for a pathway to a set of PCA scores of random gene sets of the same size as pathway. It calculates p-value and effect size.
@@ -19,13 +19,14 @@ def calculate_statistics(res_pca_pathway, res_pca_rndm_set):
     pc1_pathway = res_pca_pathway["pc1"]
     
     # Calculate the p-value
-    _, pvalue = stats.ttest_1samp(pc1_rndm, popmean=pc1_pathway, alternative='less')
+    _, pvalue = ttest_1samp(pc1_rndm, popmean=pc1_pathway, alternative='less')
 
-    # Calculate the effect size 
-    if len(pc1_rndm) > 1:
-        effect_size = (pc1_pathway - np.mean(pc1_rndm)) / np.std(pc1_rndm, ddof=1)
-    else:
-        effect_size = np.nan
+    # Calculate effect size with Cohen's D 
+    mean_diff = abs(np.mean(pc1_rndm) - pc1_pathway)
+    pooled_std = np.std(pc1_rndm, ddof=1)    
+    effect_size = mean_diff / pooled_std
+
+
     
     # Store results in a DataFrame 
     stat_res = pd.DataFrame({
@@ -40,7 +41,7 @@ def calculate_statistics(res_pca_pathway, res_pca_rndm_set):
 
 
 def porcupine(res_pca_pathways, res_pca_rndm):
-    """This function compares results of PCA analysis for each pathway versus a set od random genes sets. It calculates p-value and effect size for each pathway.
+    """This function compares results of PCA analysis for each pathway versus a set of random genes sets. It calculates p-value and effect size for each pathway.
 
     Args:
         res_pca_pathways (pd.DataFrame): Output result table of pca_pathway function
