@@ -1,7 +1,5 @@
 from porcupine import *
-import sys
 import pytest
-sys.path.append('./')
 
 def test_calculate_statistics():
     res_pca_pathway = pd.DataFrame({
