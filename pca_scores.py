@@ -24,17 +24,23 @@ def get_ind_scores(data, scale_data=True, center_data=True):
         # Scale and center the data using the scaler object
         data_t = scaler.fit_transform(data_t)
 
-    pca = PCA(n_components=2) # Initialize PCA object
-    individual_scores = pca.fit_transform(data_t)  # Fit PCA to data
+    pca = PCA(n_components=2,svd_solver='full') # Initialize PCA object
+    # Fit PCA to data
+    pca.fit(data_t)
+    individual_scores = pca.transform(data_t)  
 
     # Return a dataframe with the first two principal components
-    return pd.DataFrame(individual_scores, columns=['pc1', 'pc2'], index = data.columns)
+    return pd.DataFrame(individual_scores, columns=['Dim.1', 'Dim.2'], index = data.columns)
+
 
 def get_pathway_ind_scores(pathways_list, reg_net, edges, scale_data=True, center_data=True):
     """This function extracts patient heterogeneity scores on the first two principal components for a list of pathways.
 
     Args:
-        pathways_list (pd.DataFrame): list of pathways
+        pathways_list (pd.DataFrame or tuple or list): 
+        - If pd.DataFrame: DataFrame containing pathways information with columns like 'pathway' and 'genes'.
+        - If tuple: Tuple where the first element is the pathway name and the second element is a list of genes.
+        - If list: List of pathways 
         reg_net (pd.DataFrame): Numeric matrix with samples in columns, features in rows
         edges (pd.DataFrame): containing information on "reg" and "tar"
         scale_data (bool, optional): Whether to scale the data (TRUE) or not (FALSE). Defaults to True.
@@ -45,8 +51,16 @@ def get_pathway_ind_scores(pathways_list, reg_net, edges, scale_data=True, cente
     """
     # Initialize an empty list to store results for each pathway
     res = []
+
+    if isinstance(pathways_list, pd.DataFrame):
+        pathways_iter = pathways_list.iterrows() 
+    elif isinstance(pathways_list, tuple):
+        pathways_iter = enumerate([pd.Series({'pathway': pathways_list[0], 'genes': pathways_list[1]})])  
+    else :
+        pathways_iter = enumerate([pathways_list])
+
     # Iterate over each pathway in the pathways list
-    for _, pathway in pathways_list.iterrows():
+    for _, pathway in pathways_iter:
         # Identify the indices of edges where the target genes are in the pathway's gene list
         all_genes = pathway['genes']
         idx = edges[edges['tar'].isin(all_genes)].index
@@ -55,7 +69,7 @@ def get_pathway_ind_scores(pathways_list, reg_net, edges, scale_data=True, cente
         # Perform PCA analysis on the subset
         individual_scores = get_ind_scores(subnet, scale_data=scale_data, center_data=center_data)
         # Store the results in a DataFrame with the patient as index, a pathway column and scores of the first two principal components
-        res_pca = pd.DataFrame({'pathway':pathway.iloc[0], 'pc1':individual_scores['pc1'], 'pc2':individual_scores['pc2']})
+        res_pca = pd.DataFrame({'pathway':pathway.iloc[0], 'Dim.1':individual_scores['Dim.1'], 'Dim.2':individual_scores['Dim.2']})
         res_pca.index = individual_scores.index
         res.append(res_pca)
 
@@ -95,7 +109,7 @@ def get_features_scores(data, pathway_name, reg, tar, scale_data = True, center_
     edges_scores = pca.components_.T[:, :2]
     
     # Convert to DataFrame and add pathway, reg, and tar columns
-    edges_scores = pd.DataFrame(edges_scores, columns=['PC1', 'PC2'])
+    edges_scores = pd.DataFrame(edges_scores, columns=['pc1', 'pc2'])
     edges_scores['pathway'] = pathway_name
     edges_scores['reg'] = reg.reset_index(drop=True)
     edges_scores['tar'] = tar.reset_index(drop=True)
@@ -115,23 +129,16 @@ def get_pathway_features_scores(pathways_list, reg_net, edges, scale_data= True,
     Returns:
         list: edges scores on PC1 and PC2 for each pathway
     """
-    # Initialize an empty list to store results for each pathway
     res = []
-    # Iterate over each pathway in the pathways list
     for _, pathway in pathways_list.iterrows():
-        # Extract the pathway name
         pathway_name = pathway.iloc[0]
-        # Identify the indices of edges where the target genes are in the pathway's gene list
         all_genes = pathway['genes']
         idx = edges[edges['tar'].isin(all_genes)].index
-        # Extract the corresponding regulatory elements and target features
         reg = edges.loc[edges['tar'].isin(all_genes), 'reg']
         tar = edges.loc[edges['tar'].isin(all_genes), 'tar']   
         # Extract the subset of the regulatory network corresponding to these indices
         subnet = reg_net.loc[idx]
-        # Perform PCA analysis on the subset
         edges_scores = get_features_scores(subnet, pathway_name, reg, tar, scale_data = scale_data, center_data = center_data)
-        # Append the resulting DataFrame to the results list
         res.append(edges_scores)
 
     return res 
