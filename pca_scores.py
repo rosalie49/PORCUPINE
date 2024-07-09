@@ -17,12 +17,18 @@ def get_ind_scores(data, scale_data=True, center_data=True):
     #Transpose data
     data_t =np.transpose(data)
 
-    # Scale and/or center the data if specified
-    if scale_data or center_data:
-        # Initialize the StandardScaler object with mean centering and scaling
-        scaler = StandardScaler(with_mean=center_data, with_std=scale_data)
-        # Scale and center the data using the scaler object
-        data_t = scaler.fit_transform(data_t)
+    # center data
+    if center_data:
+        mean = np.mean(data_t,axis=0)
+        data_t = data_t-mean
+
+    # scale data
+    if scale_data:
+        std_dev = np.std(data_t, axis=0, ddof=1)
+        # avoid division by zero
+        std_dev[std_dev == 0] = 1
+        data_t = data_t / std_dev
+        
 
     pca = PCA(n_components=2,svd_solver='full') # Initialize PCA object
     # Fit PCA to data
@@ -37,10 +43,7 @@ def get_pathway_ind_scores(pathways_list, reg_net, edges, scale_data=True, cente
     """This function extracts patient heterogeneity scores on the first two principal components for a list of pathways.
 
     Args:
-        pathways_list (pd.DataFrame or tuple or list): 
-        - If pd.DataFrame: DataFrame containing pathways information with columns like 'pathway' and 'genes'.
-        - If tuple: Tuple where the first element is the pathway name and the second element is a list of genes.
-        - If list: List of pathways 
+        pathways_list (pd.DataFrame): list of pathways
         reg_net (pd.DataFrame): Numeric matrix with samples in columns, features in rows
         edges (pd.DataFrame): containing information on "reg" and "tar"
         scale_data (bool, optional): Whether to scale the data (TRUE) or not (FALSE). Defaults to True.
