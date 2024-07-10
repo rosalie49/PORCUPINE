@@ -32,7 +32,7 @@ def select_number_clusters(pathways_list, reg_net, edges, scale_data=True, cente
     visualizer.show()
     
 def visualize_clusters(pathway_of_interest, reg_net, edges, number_of_clusters, scale_data=True, center_data=True):
-    """Visuzalition of clustering of patients into specified number of clusters
+    """Visualization of clustering of patients into specified number of clusters
 
     Args:
         pathway_of_interest (tuple or pd.Series): List with genes in a pathway of interest
