@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from yellowbrick.cluster import KElbowVisualizer
-from pca_scores import *
+from porcupine.pca_scores import *
 import seaborn as sns
 
 def select_number_clusters(pathways_list, reg_net, edges, scale_data=True, center_data=True, kmax=8, random_state = 42):
