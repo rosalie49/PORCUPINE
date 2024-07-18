@@ -3,8 +3,8 @@ import sys
 sys.path.append('./')
 
 import pandas as pd
-from run_pca import * 
-from pca_pathway import process_pathway
+from porcupine.run_pca import * 
+from porcupine.pca_pathway import process_pathway
 import pytest 
 
 data_df = pd.read_csv("random_dataset_run_pca.csv")

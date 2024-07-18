@@ -2,7 +2,7 @@ import sys
 
 sys.path.append('./')
 
-from init import *
+from porcupine.init import *
 
 edges = load_edges_file('rand_genes.RData')
 pathways = load_gmt('c2.cp.reactome.v7.1.symbols.gmt')

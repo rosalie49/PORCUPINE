@@ -1,5 +1,5 @@
 import pandas as pd
-from pca_scores import * 
+from porcupine.pca_scores import * 
 import pytest 
 
 data_df = pd.read_csv("test_data.csv")

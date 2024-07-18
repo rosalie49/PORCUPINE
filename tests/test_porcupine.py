@@ -1,4 +1,4 @@
-from porcupine import *
+from porcupine.porcupine import *
 import pytest
 
 def test_calculate_statistics():
