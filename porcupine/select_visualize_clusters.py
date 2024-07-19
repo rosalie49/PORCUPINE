@@ -4,7 +4,7 @@ from yellowbrick.cluster import KElbowVisualizer
 from porcupine.pca_scores import *
 import seaborn as sns
 
-def select_number_clusters(pathways_list, reg_net, edges, scale_data=True, center_data=True, kmax=8, random_state = 42):
+def select_number_clusters(pathways_list, reg_net, edges, scale_data=True, center_data=True, kmax=8, random_state = 156):
     """Visualize and select the optimal number of clusters based on PCA scores.
 
     Args:
@@ -31,7 +31,7 @@ def select_number_clusters(pathways_list, reg_net, edges, scale_data=True, cente
     # Show the plot
     visualizer.show()
     
-def visualize_clusters(pathway_of_interest, reg_net, edges, number_of_clusters, scale_data=True, center_data=True):
+def visualize_clusters(pathway_of_interest, reg_net, edges, number_of_clusters, scale_data=True, center_data=True, random_state = 156):
     """Visualization of clustering of patients into specified number of clusters
 
     Args:
@@ -55,15 +55,16 @@ def visualize_clusters(pathway_of_interest, reg_net, edges, number_of_clusters, 
         data = scaler.fit_transform(data)
     
     # Perform k-means clustering
-    kmeans = KMeans(n_clusters=number_of_clusters, n_init=25, random_state=42)
+    kmeans = KMeans(n_clusters=number_of_clusters, n_init=25, random_state= random_state)
     clusters = kmeans.fit_predict(data)
     
     # Create a DataFrame with the cluster assignments
     data_with_clusters = pd.DataFrame(data, columns=[f'Feature{i+1}' for i in range(data.shape[1])])
     data_with_clusters['Cluster'] = clusters
     
+    
     # Plotting
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(6, 6))
     sns.scatterplot(x='Feature1', y='Feature2', hue='Cluster', data=data_with_clusters, palette='viridis')
     plt.title('Clusters plot')
     plt.xlabel('Dim.1')
