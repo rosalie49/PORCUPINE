@@ -6,3 +6,4 @@ scipy
 yellowbrick
 seaborn
 matplotlib
+statsmodels
