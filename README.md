@@ -8,7 +8,7 @@ PORCUPINE uses as input individual patient networks, for example networks modele
 The requirements are provided in a requirements.txt file.
 Install package 
 ```{r}
-pip install git+https://github.com/yourusername/PORCUPINE
+pip install git+https://github.com/rosalie49/PORCUPINE
 ```
 
 ## Usage
@@ -206,4 +206,6 @@ Here we provide example of stratifying patients based on the “E2F mediated reg
 print(pathways[378])
 #('REACTOME_E2F_MEDIATED_REGULATION_OF_DNA_REPLICATION', ['POLA2', 'ORC1', 'ORC6', 'E2F1', 'POLA1', 'PPP2CB', 'PPP2R1A', 'PPP2CA', 'TFDP2', 'ORC2', 'ORC4', 'MCM8', 'CCNB1', 'ORC3', 'PPP2R1B', 'RB1', 'PRIM2', 'ORC5', 'PPP2R3B', 'CDK1', 'PRIM1', 'TFDP1'])
 ```{r}
+pcp.select_number_clusters(pathways[378],net, edges)
+
 
