@@ -171,9 +171,9 @@ print(res_porcupine)
 #9  2.898786e-06  0.718975  9.662619e-06  
 ```
 Significant pathways can be selected based on adjusted p-value, explained variance and effect size. 
-```
-To obtain pathway-based patient heterogeneity scores on the first two principal components
-```
+
+
+To obtain pathway-based patient heterogeneity scores on the first two principal components.
 ```{r}
 ind_res = pcp.get_pathway_ind_scores(pathways_to_use, net,edges, scale_data = True, center_data = True)
 print(ind_res[0:10])
@@ -204,7 +204,7 @@ print(ind_res[0:10])
 PORCUPINE allows to identify patient subtypes based on gene regulatory networks for each of the significant pathways. For this, K-means clustering is applied to the pathway-based patient heterogeneity scores on the first two principal components.
 The optimal number of clusters can be determined prior to clustering using the Average Silhouette Method.
 
-Here we provide example of stratifying patients based on the “E2F mediated regulation of DNA replication” pathway.
+Here we provide example of stratifying patients based on the “REACTOME GAP JUNCTION DEGRADATION” pathway.
 ```{r}
 print(pathways_to_use.iloc[7])
 #pathway                    REACTOME_GAP_JUNCTION_DEGRADATION
