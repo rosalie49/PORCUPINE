@@ -214,10 +214,8 @@ print(pathways_to_use.iloc[7])
 pcp.select_number_clusters(pathways_to_use.iloc[7],net, edges)
 ```
 <img src="./images/number_clusters.jpg" alt="number of clusters" width="400" height="400">
-```
 The optimal number of clusters is 2. To visualize clusters:
 ```{r}
 pcp.visualize_clusters(pathways_to_use.iloc[7],net, edges, number_of_clusters = 2)
 ```
 <img src="./images/clusters_plot.jpg" alt="clusters" width="400" height="400">
-```
