@@ -14,6 +14,7 @@ pip install git+https://github.com/rosalie49/PORCUPINE
 ## Usage
 ```{r}
 import porcupine as pcp
+import statsmodels.stats.multitest as smm
 ```
 First, we load the network data and edges information. 
 In this example, we have patient-specific gene regulatory networks for 80 TCGA leiomyosarcoma patients.
@@ -132,6 +133,7 @@ Then to identify significant pathways we run PORCUPINE, which compares the obser
 ```{r}
 res_porcupine = pcp.porcupine(pca_res_pathways,pca_res_random)
 #P_adjust calculation using FDR method (Benjamini-Hochberg)
+import statsmodels.stats.multitest as smm
 res_porcupine['p.adjust'] = smm.multipletests(res_porcupine['pval'], method='fdr_bh')[1]
 print(res_porcupine)
 
@@ -171,6 +173,7 @@ print(res_porcupine)
 Significant pathways can be selected based on adjusted p-value, explained variance and effect size. 
 ```
 To obtain pathway-based patient heterogeneity scores on the first two principal components
+```
 ```{r}
 ind_res = pcp.get_pathway_ind_scores(pathways_to_use, net,edges, scale_data = True, center_data = True)
 print(ind_res[0:10])
@@ -203,9 +206,18 @@ The optimal number of clusters can be determined prior to clustering using the A
 
 Here we provide example of stratifying patients based on the “E2F mediated regulation of DNA replication” pathway.
 ```{r}
-print(pathways[378])
-#('REACTOME_E2F_MEDIATED_REGULATION_OF_DNA_REPLICATION', ['POLA2', 'ORC1', 'ORC6', 'E2F1', 'POLA1', 'PPP2CB', 'PPP2R1A', 'PPP2CA', 'TFDP2', 'ORC2', 'ORC4', 'MCM8', 'CCNB1', 'ORC3', 'PPP2R1B', 'RB1', 'PRIM2', 'ORC5', 'PPP2R3B', 'CDK1', 'PRIM1', 'TFDP1'])
+print(pathways_to_use.iloc[7])
+#pathway                    REACTOME_GAP_JUNCTION_DEGRADATION
+#genes      [CLTCL1, ACTB, DNM2, DNM1, CLTA, CLTC, GJA1, D...
+```
 ```{r}
-pcp.select_number_clusters(pathways[378],net, edges)
-
-
+pcp.select_number_clusters(pathways_to_use.iloc[7],net, edges)
+```
+<img src="./images/number_clusters.jpg" alt="number of clusters" width="400" height="400">
+```
+The optimal number of clusters is 2. To visualize clusters:
+```{r}
+pcp.visualize_clusters(pathways_to_use.iloc[7],net, edges, number_of_clusters = 2)
+```
+<img src="./images/clusters_plot.jpg" alt="clusters" width="400" height="400">
+```
