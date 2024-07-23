@@ -207,7 +207,7 @@ The optimal number of clusters can be determined prior to clustering using the A
 Here we provide example of stratifying patients based on the “REACTOME VITAMIN B5 PANTOTHENATE METABOLISM” pathway.
 ```{r}
 print(pathways[37])
-#('REACTOME_VITAMIN_B5_PANTOTHENATE_METABOLISM', ['COASY', 'VNN1', 'VNN2', 'PANK3', 'PDZD11', 'SLC25A16', 'PANK2', #'PPCS', 'ENPP2', 'SLC5A6', 'PPCDC', 'AASDHPPT', 'PANK1', 'ENPP3', 'PANK4', 'FASN', 'ENPP1'])
+#('REACTOME_VITAMIN_B5_PANTOTHENATE_METABOLISM', ['COASY', 'VNN1', 'VNN2', 'PANK3', 'PDZD11', 'SLC25A16', 'PANK2', 'PPCS', 'ENPP2', 'SLC5A6', 'PPCDC', 'AASDHPPT', 'PANK1', 'ENPP3', 'PANK4', 'FASN', 'ENPP1'])
 
 ```
 ```{r}
