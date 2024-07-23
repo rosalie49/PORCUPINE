@@ -1,8 +1,10 @@
 import pandas as pd
 from porcupine.pca_scores import * 
 import pytest 
+import os 
 
-data_df = pd.read_csv("random_dataset_run_pca.csv")
+data_path = os.path.join(os.path.dirname(__file__), 'random_dataset_run_pca.csv')
+data_df = pd.read_csv(data_path)
 
 def test_get_features_scores():
     reg = ['reg1','reg2','reg3','reg4','reg5']
