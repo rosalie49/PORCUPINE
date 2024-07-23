@@ -1,13 +1,11 @@
-import sys
-
-sys.path.append('./')
-
+import os
 import pandas as pd
 from porcupine.run_pca import * 
 from porcupine.pca_pathway import process_pathway
 import pytest 
 
-data_df = pd.read_csv("random_dataset_run_pca.csv")
+data_path = os.path.join(os.path.dirname(__file__), 'random_dataset_run_pca.csv')
+data_df = pd.read_csv(data_path)
 
 def test_run_pca():
 
