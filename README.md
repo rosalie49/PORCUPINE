@@ -204,16 +204,16 @@ print(ind_res[0:10])
 PORCUPINE allows to identify patient subtypes based on gene regulatory networks for each of the significant pathways. For this, K-means clustering is applied to the pathway-based patient heterogeneity scores on the first two principal components.
 The optimal number of clusters can be determined prior to clustering using the Average Silhouette Method.
 
-Here we provide example of stratifying patients based on the “REACTOME GAP JUNCTION DEGRADATION” pathway.
+Here we provide example of stratifying patients based on the “REACTOME VITAMIN B5 PANTOTHENATE METABOLISM” pathway.
 ```{r}
-print(pathways_to_use.iloc[7])
-#pathway                    REACTOME_GAP_JUNCTION_DEGRADATION
-#genes      [CLTCL1, ACTB, DNM2, DNM1, CLTA, CLTC, GJA1, D...
+print(pathways[37])
+#('REACTOME_VITAMIN_B5_PANTOTHENATE_METABOLISM', ['COASY', 'VNN1', 'VNN2', 'PANK3', 'PDZD11', 'SLC25A16', 'PANK2', #'PPCS', 'ENPP2', 'SLC5A6', 'PPCDC', 'AASDHPPT', 'PANK1', 'ENPP3', 'PANK4', 'FASN', 'ENPP1'])
+
 ```
 ```{r}
-pcp.select_number_clusters(pathways_to_use.iloc[7],net, edges)
+pcp.select_number_clusters(pathways[37],net, edges)
 #The optimal number of clusters is 2. To visualize clusters
-pcp.visualize_clusters(pathways_to_use.iloc[7], net, edges, number_of_clusters = 2)
+pcp.visualize_clusters(pathways[37], net, edges, number_of_clusters = 2)
 ```
 <img src="./images/number_clusters.jpg" alt="number of clusters" width="400" height="400">
 <img src="./images/clusters_plot.jpg" alt="clusters" width="400" height="400">
