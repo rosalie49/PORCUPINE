@@ -23,8 +23,8 @@ Edges information includes three columns: reg (the transcription factor's gene s
 
 ```{r}
 net_file_path = "/div/pythagoras/u1/rosaliec/80_tcga_lms_net.RData"
-edges_file_path = "/div/pythagoras/u1/rosaliec/edges.RData"
-net, edges = pcp.load_data(net_file_path, edges_file_path)
+net = pcp.load_net_file(net_file_path)
+print(net.head())
 
 
 #   0E244FE2-7C17-4642-A51F-2CCA796D9C70  75435ED8-93E8-45FB-8480-98D8EB2EF8CB  \
@@ -56,7 +56,8 @@ net, edges = pcp.load_data(net_file_path, edges_file_path)
 #3                                  0.13  
 #4                                 -0.06 
 
-
+edges_file_path = "/div/pythagoras/u1/rosaliec/edges.RData"
+edges = pcp.load_edges_file(edges_file_path)
 print(edges.head())
 
 #    reg   tar  prior
@@ -77,7 +78,7 @@ Our individual networks are represented by interactions between 623 TFs and 17,8
 Then, we need to load in pathway file (.gmt file) available in the data folder. 
 
 ```{r}
-pathways_file_path = "/div/pythagoras/u1/rosaliec/c2.cp.reactome.v7.1.symbols.gmt"
+pathways_file_path = 
 pathways = pcp.load_gmt(pathways_file_path)
 print(len(pathways))
 #1532
@@ -132,7 +133,7 @@ Then we perform a PCA analysis based on random gene sets. In this case we create
 ```{r}
 pca_res_random = pcp.pca_random(net, edges, pca_res_pathways, pathways_filt, n_perm = 50, scale_data= True, center_data = True)
 ```
-Then to identify significant pathways we run PORCUPINE, which compares the observed PCA score for a pathway to a set of PCA scores of random gene sets of the same size as pathway. Calculates p-value and effect size.
+Then to identify significant pathways we run PORCUPINE, which compares the observed PCA score for a pathway to a set of PCA scores of random gene sets of the same size as pathway. Calculates p-value and effect size. The p-values can differ  because of the random nature of this test. 
 ```{r}
 res_porcupine = pcp.porcupine(pca_res_pathways,pca_res_random)
 #P_adjust calculation using FDR method (Benjamini-Hochberg)
