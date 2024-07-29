@@ -1,7 +1,7 @@
 import os
 import pandas as pd
-from porcupine.run_pca import * 
-from porcupine.pca_pathway import process_pathway
+from netzoo_porcupine.run_pca import * 
+from netzoo_porcupine.pca_pathway import process_pathway
 import pytest 
 
 data_path = os.path.join(os.path.dirname(__file__), 'random_dataset_run_pca.csv')

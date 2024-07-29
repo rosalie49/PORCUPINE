@@ -1,4 +1,4 @@
-from porcupine.porcupine import *
+from netzoo_porcupine.porcupine import *
 import pytest
 
 def test_calculate_statistics():

@@ -1,5 +1,4 @@
 import pyreadr
-
 import pandas as pd
 
 def load_data(net_file_path=None, edges_file_path=None):
