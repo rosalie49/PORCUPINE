@@ -51,7 +51,9 @@ jobs:
     - name: Install dependencies on Windows
       if: runner.os == 'Windows'
       run: |
+        choco install r.project
         choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
+        $env:Path += ';C:\Program Files\R\R-4.0.0\bin'
         python -m pip install --upgrade pip
         pip install pytest
         pip install -r requirements.txt
