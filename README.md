@@ -8,12 +8,12 @@ PORCUPINE uses as input individual patient networks, for example networks modele
 The requirements are provided in a requirements.txt file.
 Install package 
 ```{r}
-pip install git+https://github.com/rosalie49/PORCUPINE
+pip install netzoo_porcupine
 ```
 
 ## Usage
 ```{r}
-import porcupine as pcp
+import netzoo_porcupine as pcp
 import statsmodels.stats.multitest as smm
 ```
 First, we load the network data and edges information. 
@@ -72,7 +72,7 @@ print(len(edges['tar'].unique()))
 
 ```
 Our individual networks are represented by interactions between 623 TFs and 17,899 target genes.
-Then, we need to load in pathway file (.gmt file). Gmt files can be downloaded from http://www.gsea-msigdb.org/gsea/msigdb/collections.jsp
+Then, we need to load in pathway file (.gmt file) available in the data folder. 
 
 ```{r}
 pathways = pcp.load_gmt(pathways_file_path)
