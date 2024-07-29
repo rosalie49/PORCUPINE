@@ -16,14 +16,16 @@ pip install netzoo_porcupine
 import netzoo_porcupine as pcp
 import statsmodels.stats.multitest as smm
 ```
-First, we load the network data and edges information. 
+First, we load the network data (80_tcga_lms_net.RData) and edges information (rand_genes.RData). Data files are available here : https://zenodo.org/records/8105729.
 In this example, we have patient-specific gene regulatory networks for 80 TCGA leiomyosarcoma patients.
 The first three columns in the data provide information on the regulators (TFs) and target genes. 
 Edges information includes three columns: reg (the transcription factor's gene symbol),tar (Ensembl ID), prior (whether an edge is prior (1) or not (0)).
 
 ```{r}
+net_file_path = "/div/pythagoras/u1/rosaliec/80_tcga_lms_net.RData"
+edges_file_path = "/div/pythagoras/u1/rosaliec/edges.RData"
 net, edges = pcp.load_data(net_file_path, edges_file_path)
-print(net.head())
+
 
 #   0E244FE2-7C17-4642-A51F-2CCA796D9C70  75435ED8-93E8-45FB-8480-98D8EB2EF8CB  \
 #0                                  0.76                                  0.10   
@@ -75,6 +77,7 @@ Our individual networks are represented by interactions between 623 TFs and 17,8
 Then, we need to load in pathway file (.gmt file) available in the data folder. 
 
 ```{r}
+pathways_file_path = "/div/pythagoras/u1/rosaliec/c2.cp.reactome.v7.1.symbols.gmt"
 pathways = pcp.load_gmt(pathways_file_path)
 print(len(pathways))
 #1532
@@ -83,14 +86,14 @@ We need to filter pathways in order to include only pathways with genes that are
 ```{r}
 pathways_filt=pcp.filter_pathways(pathways,edges)
 print(len(pathways_filt))
-#1530
+#1531
 
 ```
 Then, we filter pathways based on their size, and all pathways with less than 10 and more than 150 genes are filtered out. 
 ```{r}
 pathways_to_use=pcp.filter_pathways_size(pathways_filt,5,150)
 print(len(pathways_to_use))
-#1410
+#1411
 ```
 We select the top 10 pathways for the analysis (just to reduce computational time).
 ```{r}
