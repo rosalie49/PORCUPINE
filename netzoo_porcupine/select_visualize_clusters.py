@@ -6,7 +6,7 @@ import seaborn as sns
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
-def test_select_number_clusters(pathways_list, reg_net, edges, scale_data=True, center_data=True, kmax=8, random_state=42):
+def select_number_clusters(pathways_list, reg_net, edges, scale_data=True, center_data=True, kmax=8, random_state=42):
     """Visualize and select the optimal number of clusters based on PCA scores.
 
     Args:
@@ -40,11 +40,11 @@ def test_select_number_clusters(pathways_list, reg_net, edges, scale_data=True, 
     visualizer.show()
 
     #Save the plot
-    plt.savefig('number_clusters1.png', bbox_inches='tight')
+    plt.savefig('number_clusters.png', bbox_inches='tight')
 
     plt.close()
 
-def test_visualize_clusters(pathway_of_interest, reg_net, edges, number_of_clusters, scale_data=True, center_data=True, random_state=42):
+def visualize_clusters(pathway_of_interest, reg_net, edges, number_of_clusters, scale_data=True, center_data=True, random_state=42):
     """Visualization of clustering of patients into specified number of clusters
 
     Args:
