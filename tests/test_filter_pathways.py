@@ -1,8 +1,4 @@
-import sys
-
-sys.path.append('./')
-
-from porcupine.init import *
+from netzoo_porcupine.init import *
 
 
 edges_data = {

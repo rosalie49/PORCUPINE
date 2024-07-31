@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from porcupine.run_pca import *
+from .run_pca import *
 
 def pca_pathway(pathways_list, reg_net, edges, scale_data=True, center_data=True):
     """

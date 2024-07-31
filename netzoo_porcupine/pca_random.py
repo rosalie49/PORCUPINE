@@ -1,5 +1,5 @@
 import numpy as np
-from porcupine.pca_pathway import *
+from .pca_pathway import *
 
 def create_gene_set(universe, psize, n_perm=1000, seed = None, rng = None):
     """This function creates a random gene set from a universe of genes 
