@@ -78,7 +78,7 @@ Our individual networks are represented by interactions between 623 TFs and 17,8
 Then, we need to load in pathway file (.gmt file) available in the data folder. 
 
 ```{r}
-pathways_file_path = 
+pathways_file_path = "/div/pythagoras/u1/rosaliec/c2.cp.reactome.v7.1.symbols.gmt"
 pathways = pcp.load_gmt(pathways_file_path)
 print(len(pathways))
 #1532
