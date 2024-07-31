@@ -1,25 +1,6 @@
 import pyreadr
-
+import os
 import pandas as pd
-
-def load_data(net_file_path=None, edges_file_path=None):
-    '''
-    Loads both network data and edge information from files specified by the user
-
-    Parameters:
-    - net_file_path (str): path to the input networks data file
-    - edges_file_path (str) : path to the input edges data file 
-
-    Returns:
-        - net (DataFrame): The network data
-        - edges (DataFrame): The edges data
-    '''
-    
-    net = load_net_file(net_file_path)
-
-    edges = load_edges_file(edges_file_path)
-
-    return net, edges
 
 def load_net_file(net_file_path=None):
     '''
@@ -34,9 +15,19 @@ def load_net_file(net_file_path=None):
     
     if net_file_path is None:
         net_file_path = input("Network file path => ")
-    data = pyreadr.read_r(net_file_path)
-    net = data['net'] # Network data is stored in net
 
+    extension = os.path.splitext(net_file_path)[-1].lower()
+
+    if extension == '.rdata':
+        data = pyreadr.read_r(net_file_path)
+        net = data['net'] # Network data is stored in net
+    elif extension == '.tsv':
+        data = pd.read_csv(net_file_path, sep='\t')
+        net = data['net']
+    elif extension == '.pkl':
+        data = pd.read_pickle(net_file_path)
+        net = data['net']
+        
     return net
 
 def load_edges_file(edges_file_path=None):
@@ -52,8 +43,18 @@ def load_edges_file(edges_file_path=None):
 
     if edges_file_path is None:
         edges_file_path = input("Edges file path => ")
-    data_edges = pyreadr.read_r(edges_file_path)
-    edges = data_edges['edges'] # Edge data is stored in edges
+
+    extension = os.path.splitext(edges_file_path)[-1].lower()
+
+    if extension == '.rdata':
+        data = pyreadr.read_r(edges_file_path)
+        edges = data['edges'] # Edge data is stored in edges
+    elif extension == '.tsv':
+        data = pd.read_csv(edges_file_path, sep='\t')
+        edges = data['edges']
+    elif extension == '.pkl':
+        data = pd.read_pickle(edges_file_path)
+        edges = data['edges']
 
     return edges
 

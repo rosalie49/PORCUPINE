@@ -1,5 +1,5 @@
 import pandas as pd
-from porcupine.pca_scores import * 
+from netzoo_porcupine.pca_scores import * 
 import pytest 
 import os 
 
