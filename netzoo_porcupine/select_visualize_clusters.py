@@ -1,10 +1,12 @@
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from yellowbrick.cluster import KElbowVisualizer
-from .pca_scores import *
+from pca_scores import *
 import seaborn as sns
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
 
-def select_number_clusters(pathways_list, reg_net, edges, scale_data=True, center_data=True, kmax=8, random_state = 156):
+def test_select_number_clusters(pathways_list, reg_net, edges, scale_data=True, center_data=True, kmax=8, random_state=42):
     """Visualize and select the optimal number of clusters based on PCA scores.
 
     Args:
@@ -15,23 +17,34 @@ def select_number_clusters(pathways_list, reg_net, edges, scale_data=True, cente
         center_data (bool, optional): Whether to center the data (TRUE) or not (FALSE). Defaults to True.
         kmax (int, optional): Maximum number of clusters to consider. Defaults to 8.
         random_state (int, optional): Seed for random number generator for reproducibility. Defaults to 42.
+
     Returns:
         None: The function will plot the optimal number of clusters using the silhouette method.
     """
     # Get the PCA scores for the pathways
-    pca_scores = get_pathway_ind_scores(pathways_list, reg_net, edges, scale_data = scale_data, center_data = center_data)
+    pca_scores = get_pathway_ind_scores(pathways_list, reg_net, edges, scale_data=scale_data, center_data=center_data)
+    
     # Extract the PCA scores for clustering
     results = pca_scores[['Dim.1', 'Dim.2']]
+    
     # Initialize the KMeans model
-    model = KMeans(random_state = random_state)
+    model = KMeans(random_state=random_state)
+    
     # Initialize the KElbowVisualizer with the silhouette metric
-    visualizer = KElbowVisualizer(model, k=(2, kmax+1), metric='silhouette', timings=False)
+    visualizer = KElbowVisualizer(model, k=(2, kmax + 1), metric='silhouette', timings=False)
+    
     # Fit the visualizer with the data
     visualizer.fit(results)
+    
     # Show the plot
     visualizer.show()
-    
-def visualize_clusters(pathway_of_interest, reg_net, edges, number_of_clusters, scale_data=True, center_data=True, random_state = 156):
+
+    #Save the plot
+    plt.savefig('number_clusters1.png', bbox_inches='tight')
+
+    plt.close()
+
+def test_visualize_clusters(pathway_of_interest, reg_net, edges, number_of_clusters, scale_data=True, center_data=True, random_state=42):
     """Visualization of clustering of patients into specified number of clusters
 
     Args:
@@ -45,23 +58,23 @@ def visualize_clusters(pathway_of_interest, reg_net, edges, number_of_clusters, 
     Returns:
         plot : The function will plot the clustering of patients 
     """
+    # Get the PCA scores for the pathway of interest
     results = get_pathway_ind_scores(pathway_of_interest, reg_net, edges, scale_data, center_data)
     
     # Assure that results is a DataFrame
-    data = results[['Dim.1','Dim.2']]
+    data = results[['Dim.1', 'Dim.2']]
     
     if scale_data or center_data:
         scaler = StandardScaler(with_mean=center_data, with_std=scale_data)
         data = scaler.fit_transform(data)
     
     # Perform k-means clustering
-    kmeans = KMeans(n_clusters=number_of_clusters, n_init=25, random_state= random_state)
+    kmeans = KMeans(n_clusters=number_of_clusters, n_init=25, random_state=random_state)
     clusters = kmeans.fit_predict(data)
     
     # Create a DataFrame with the cluster assignments
     data_with_clusters = pd.DataFrame(data, columns=[f'Feature{i+1}' for i in range(data.shape[1])])
     data_with_clusters['Cluster'] = clusters
-    
     
     # Plotting
     plt.figure(figsize=(6, 6))
@@ -71,6 +84,12 @@ def visualize_clusters(pathway_of_interest, reg_net, edges, number_of_clusters, 
     plt.ylabel('Dim.2')
     plt.legend(title='Cluster')
     plt.grid(True)
+
+    #Show the plot
     plt.show()
-    
-    return {'plot': plt, 'clusters': kmeans}
+
+    #Save the plot
+    plt.savefig('clusters.png', bbox_inches='tight')
+
+    plt.close()
+
