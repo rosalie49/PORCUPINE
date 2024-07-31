@@ -100,7 +100,7 @@ We select the top 10 pathways for the analysis (just to reduce computational tim
 ```{r}
 pathways_to_use=pathways_to_use[0:10]
 ```
-Next, we perform PCA analysis for the 10 selected pathawys and extact the information on the variance explained by the first principal component in each pathway.
+Next, we perform PCA analysis for the 10 selected pathawys and extract the information on the variance explained by the first principal component in each pathway.
 ```{r}
 pca_res_pathways=pcp.pca_pathway(pathways_to_use, net, edges,scale_data = True, center_data = True)
 print(pca_res_pathways)
@@ -133,7 +133,7 @@ Then we perform a PCA analysis based on random gene sets. In this case we create
 ```{r}
 pca_res_random = pcp.pca_random(net, edges, pca_res_pathways, pathways_filt, n_perm = 50, scale_data= True, center_data = True)
 ```
-Then to identify significant pathways we run PORCUPINE, which compares the observed PCA score for a pathway to a set of PCA scores of random gene sets of the same size as pathway. Calculates p-value and effect size. The p-values can differ  because of the random nature of this test. 
+Then to identify significant pathways we run PORCUPINE, which compares the observed PCA score for a pathway to a set of PCA scores of random gene sets of the same size as pathway. Calculates p-value and effect size. The p-values can differ because of the random nature of this test. 
 ```{r}
 res_porcupine = pcp.porcupine(pca_res_pathways,pca_res_random)
 #P_adjust calculation using FDR method (Benjamini-Hochberg)
