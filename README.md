@@ -133,7 +133,6 @@ Then to identify significant pathways we run PORCUPINE, which compares the obser
 ```{r}
 res_porcupine = pcp.porcupine(pca_res_pathways,pca_res_random)
 #P_adjust calculation using FDR method (Benjamini-Hochberg)
-import statsmodels.stats.multitest as smm
 res_porcupine['p.adjust'] = smm.multipletests(res_porcupine['pval'], method='fdr_bh')[1]
 print(res_porcupine)
 
